@@ -30,7 +30,7 @@ def giant_steps(h,g,p):
     baby_steps_arr = baby_steps(g,h,p)
 
     for i in range(1,m):
-        y = (h * pow(g,i*m) * pow(h,-1,p))%p
+        y = pow(g,i*m,p)
         if y in baby_steps_arr:
             j = baby_steps_arr.index(y)
             print(f"i:{i}, j:{j}, m:{m} ")
