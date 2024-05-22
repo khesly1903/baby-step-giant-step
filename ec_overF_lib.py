@@ -37,7 +37,7 @@ def inv(a,q):
 def is_on_curve(ec,q,P):
     a,b = ec
     x,y = P
-    if pow(y,2,q) == pow(x,3,q) + a*x + b:
+    if pow(y,2,q) == (pow(x,3,q) + a*x + b)%q:
         pass
     else:
         raise ValueError
@@ -81,12 +81,11 @@ def addition(ec,q,P,Q):
 
 
 def s_mult(ec,q, k, P):
-    print(f"SCALAR MULTIPLICATION {k}{P}:")
     R = P
-    print(f"{1} x {P} = {R}") 
+
     for i in range(1, k):
         R = addition(ec, q, P, R)
-        print(f"{i+1} x {P} = {R}")   
+
         
     return R
 
@@ -110,12 +109,12 @@ def sub_gend(ec, q, P):
 
     for i in range(1, sub_order):  
         R = addition(ec, q, P, R)  
-        print(f"{i} x {P} = {R}")
+
         x, y = R
         x_subgend.append(x)
         y_subgend.append(y)
 
-    print(f"{sub_order} x {P} = {O}")
+
     sub_gend_points = x_subgend, y_subgend  
     
     return sub_gend_points  
@@ -139,28 +138,19 @@ def double_and_add(ec,q,k,P):
 
     
     binary_k = binary(k)[1:] #no operation for first bit
-    
-    print(f"-----First bit is {binary(k)[0]}, we do nothing")
-    print(f"1 x {P} = {P}")
+
 
     for bit in binary_k:
         if bit == 0:
             n *= 2
-            print("--")
-            print(f"----bit is 0, n= {n}, double")
-            print("--")
-            print(f"{n} x {P} = {R}")
-            R = double(ec,q,R)
+
             
         elif bit == 1:
             n = n*2 
             R = double(ec,q,R) #double
             R = addition(ec,q,P,R) #add
             n += 1
-            print("--")
-            print(f"----bit is 1, n= {n}, double and add")
-            print("--")
-            print(f"{n} x {P} + {P}= {R}")
+
         else:
             raise(ValueError)
 
