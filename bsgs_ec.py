@@ -1,6 +1,5 @@
-
 import math
-import ec_overF as ecf
+import ec_overF_lib as ecf
 
 def baby_steps(ec,q,P,Q):
     ord_P = ecf.order(ec,q,P)
@@ -11,7 +10,7 @@ def baby_steps(ec,q,P,Q):
         R = ecf.addition(ec,q,Q,ecf.double_and_add(ec,q,i,P))
         baby_arr.append(R)
 
-    print(baby_arr)
+
 
     return baby_arr
 
@@ -39,13 +38,28 @@ def main():
 
 
 
+    print("""
+                           BSGS
+                           
+                           
+     To construct an elliptic curve over a finite field, 
+    please provide the parameters a and b for the equation 
+                     y^2 = x^3 + ax + b 
+              along with the prime number p.
+                """)
     a = int(input("a: "))
     b = int(input("b: "))
     ec = (a,b)
     q = int(input("q: "))
 
     ecf.is_prime(q)
+    
+    print("""
 
+                    Solve for Q = kP
+                    
+          """)
+    
     x_0 , y_0 = input("P: ").split()
     x_1 , y_1 = input("Q: ").split()
 
@@ -59,8 +73,22 @@ def main():
 
     ecf.is_on_curve(ec,q,P)
     ecf.is_on_curve(ec,q,Q)
+    
+    
+    print("""
 
-    print(giant_steps(ec,q,P,Q))
+                       Baby Steps
+                    
+          """)
+    print(baby_steps(ec,q,P,Q))
+    
+    print("""
+
+                       Giant Steps
+                    
+          """)
+
+    print(f"k = {giant_steps(ec,q,P,Q)}")
 
 
     #https://andrea.corbellini.name/ecc/interactive/modk-mul.html
