@@ -37,8 +37,8 @@ def giant_steps(h,g,p):
 
 
 def main():
-
-    print("Solve for h = g^x (mod p)")
+    print()
+    print("         Solve for h = g^x (mod p)")
 
     h = int(input("h:"))
 
@@ -47,14 +47,18 @@ def main():
     p = int(input("p:"))
 
     is_prime(p)
+    
+    print()
 
+    print("Baby steps:")
     print(baby_steps(h,g,p))
 
     # h=12,g=14,p=53,x=12
     # h=124,g=140,p=137,x=93
     #https://asecuritysite.com/encryption/baby?val1=50&val2=11&val3=997
 
-
+    print()
+    print(f"x = {giant_steps(h,g,p)}")
 
     
 
