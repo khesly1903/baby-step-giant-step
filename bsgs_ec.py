@@ -6,11 +6,12 @@ def baby_steps(ec,q,P,Q):
     m = math.ceil(math.sqrt(ord_P))
 
     baby_arr = []
-    for i in range(0,m):
-        R = ecf.addition(ec,q,Q,ecf.double_and_add(ec,q,i,P))
+    baby_arr.append(Q)
+    print(f"{Q} + 0{P} = {Q}")
+    for j in range(1,m): #normally it is (0,m) but first element is Q+0P, addition cannot see (0,0) is point cz it is not on curve
+        R = ecf.addition(ec,q,Q,ecf.double_and_add(ec,q,j,P))
+        print(f"{Q} + {j}{P} = {R}")
         baby_arr.append(R)
-
-
 
     return baby_arr
 
@@ -19,10 +20,24 @@ def giant_steps(ec,q,P,Q):
     ord_P = ecf.order(ec,q,P)
     m = math.ceil(math.sqrt(ord_P))
 
+    print("""
+
+                       Baby Steps
+                    
+          """)
+    
     baby_arr = baby_steps(ec,q,P,Q)
+    
+        
+    print("""
+
+                       Giant Steps
+                    
+          """)
 
     for i in range(1,m):
         R = ecf.double_and_add(ec,q,i*m,P)
+        print(f"{i*m}{P} = {R}")
 
         if R in baby_arr:
             j = baby_arr.index(R)
@@ -75,18 +90,8 @@ def main():
     ecf.is_on_curve(ec,q,Q)
     
     
-    print("""
 
-                       Baby Steps
-                    
-          """)
-    print(baby_steps(ec,q,P,Q))
-    
-    print("""
 
-                       Giant Steps
-                    
-          """)
 
     print(f"k = {giant_steps(ec,q,P,Q)}")
 
